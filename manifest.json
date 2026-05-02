@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#c2185b"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Little Muslim"/>
+<meta name="description" content="Weekend Schedule for Little Muslims - Age 4-7"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icons/icon-192.png"/>
+<link rel="icon" type="image/png" href="icons/icon-192.png"/>
+<title>Little Muslim Weekend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:'Nunito',sans-serif;background:#1a0a2e}
+
+:root{
+  --pk1:#ff6eb4;--pk2:#f06292;--pk3:#c2185b;--pk4:#880e4f;
+  --pu1:#ce93d8;--pu2:#ab47bc;--pu3:#7b1fa2;--pu4:#4a148c;
+  --gd1:#fff9c4;--gd2:#ffd54f;--gd3:#ff8f00;
+  --gr1:#a5d6a7;--gr2:#4caf50;--gr3:#1b5e20;
+  --bl1:#90caf9;--bl2:#1976d2;
+  --wh:#fff;--tx:#1a0a2e;--txm:#6b4c7a;
+  --bg-app:linear-gradient(160deg,#2d0a4e 0%,#1a0a2e 40%,#3d0050 100%);
+  --card:#1e0d35;--card2:#2a1248;
+  --brd:rgba(255,110,180,0.25);
+  --shadow:0 4px 20px rgba(255,110,180,0.2);
+  --r:18px;
+}
+
+body{background:var(--bg-app);color:var(--wh)}
+
+/* SPARKLE BG */
+#sparkle-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.spark{position:absolute;border-radius:50%;animation:twinkle var(--d,3s) var(--del,0s) infinite}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(0.5)}50%{opacity:1;transform:scale(1)}}
+
+/* APP LAYOUT */
+#app{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;max-width:480px;margin:0 auto}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#4a148c 0%,#880e4f 50%,#c2185b 100%);
+  padding:env(safe-area-inset-top,12px) 12px 10px;
+  padding-top:max(env(safe-area-inset-top),12px);
+  flex-shrink:0;
+  position:relative;overflow:hidden;
+}
+.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ff6eb4,#ffd54f,#ce93d8,#ff6eb4)}
+.hdr-top{display:flex;align-items:center;gap:8px}
+.crown{font-size:1.8rem;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-5px) rotate(5deg)}}
+.hdr-titles{flex:1}
+.hdr-main{font-family:'Baloo 2',cursive;font-size:1.2rem;font-weight:800;color:#fff;text-shadow:0 0 20px rgba(255,110,180,0.8);line-height:1.1}
+.hdr-sub{font-size:0.72rem;color:rgba(255,255,255,0.75);font-weight:600;margin-top:1px}
+.hdr-name-wrap{display:flex;align-items:center;gap:6px;margin-top:8px}
+.hdr-name-input{
+  flex:1;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,110,180,0.5);
+  border-radius:30px;padding:6px 14px;color:#fff;font-family:'Nunito',sans-serif;
+  font-size:0.85rem;font-weight:700;outline:none;
+}
+.hdr-name-input::placeholder{color:rgba(255,255,255,0.5)}
+.hdr-name-input:focus{border-color:#ff6eb4;background:rgba(255,255,255,0.18)}
+.hdr-greeting{font-size:0.85rem;font-weight:800;color:#ffd54f;text-shadow:0 0 10px rgba(255,213,79,0.6)}
+.hdr-stars-row{display:flex;justify-content:center;gap:4px;margin-top:6px}
+
+/* NAV */
+.nav{
+  display:flex;gap:0;background:#150826;flex-shrink:0;
+  border-bottom:1px solid var(--brd);overflow-x:auto;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{
+  flex:1;min-width:70px;padding:10px 4px 8px;
+  background:transparent;border:none;color:rgba(255,255,255,0.5);
+  font-family:'Nunito',sans-serif;font-size:0.68rem;font-weight:700;
+  cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;
+  align-items:center;gap:2px;position:relative;
+}
+.nav-btn .nb-ico{font-size:1.2rem}
+.nav-btn.active{color:#ff6eb4}
+.nav-btn.active::after{content:'';position:absolute;bottom:0;left:15%;right:15%;height:2.5px;background:linear-gradient(90deg,#ff6eb4,#ffd54f);border-radius:3px}
+.nav-btn:active{transform:scale(0.92)}
+
+/* SCROLL AREA */
+.content{flex:1;overflow-y:auto;padding:10px 10px 80px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.content::-webkit-scrollbar{display:none}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:12px 14px;margin-bottom:10px}
+.card2{background:var(--card2)}
+
+/* PROGRESS */
+.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.prog-label{font-size:0.78rem;font-weight:700;color:rgba(255,255,255,0.7)}
+.prog-count{font-size:0.78rem;font-weight:800;color:#ffd54f}
+.prog-track{height:10px;background:rgba(255,255,255,0.1);border-radius:20px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,#c2185b,#ff6eb4,#ffd54f);border-radius:20px;transition:width 0.5s cubic-bezier(.4,2,.6,1)}
+.prog-msg{text-align:center;font-size:0.73rem;font-weight:700;color:#ce93d8;margin-top:5px}
+
+/* ACTIVITY CARD */
+.act-card{
+  background:var(--card);border:1px solid var(--brd);border-radius:14px;
+  display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:8px;
+  cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;
+  -webkit-tap-highlight-color:transparent;
+  border-left:4px solid transparent;
+}
+.act-card:active{transform:scale(0.97)}
+.act-card.done{opacity:0.45}
+.act-card.done .act-title{text-decoration:line-through}
+
+.t-prayer{border-left-color:#4caf50}
+.t-prayer .act-ico-wrap{background:rgba(76,175,80,0.2)}
+.t-meal{border-left-color:#ff9800}
+.t-meal .act-ico-wrap{background:rgba(255,152,0,0.2)}
+.t-learn{border-left-color:#90caf9}
+.t-learn .act-ico-wrap{background:rgba(144,202,249,0.2)}
+.t-play{border-left-color:#ce93d8}
+.t-play .act-ico-wrap{background:rgba(206,147,216,0.2)}
+.t-family{border-left-color:#ff6eb4}
+.t-family .act-ico-wrap{background:rgba(255,110,180,0.2)}
+.t-sleep{border-left-color:#90a4ae}
+.t-sleep .act-ico-wrap{background:rgba(144,164,174,0.2)}
+
+.act-ico-wrap{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.act-info{flex:1;min-width:0}
+.act-time{font-size:0.68rem;font-weight:700;color:rgba(255,255,255,0.45);margin-bottom:1px}
+.act-title{font-size:0.88rem;font-weight:800;color:#fff;line-height:1.2}
+.act-desc{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:2px;line-height:1.3}
+
+.chk{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;background:transparent}
+.chk.on{background:linear-gradient(135deg,#c2185b,#ff6eb4);border-color:#ff6eb4;box-shadow:0 0 10px rgba(255,110,180,0.5)}
+.chk svg{display:none}
+.chk.on svg{display:block}
+
+/* REWARD */
+.total-gem{
+  background:linear-gradient(135deg,#4a148c,#880e4f);
+  border:1px solid #ff6eb4;border-radius:var(--r);
+  padding:14px;text-align:center;margin-bottom:10px;
+  box-shadow:0 0 30px rgba(255,110,180,0.3);
+}
+.gem-num{font-family:'Baloo 2',cursive;font-size:3rem;font-weight:800;color:#ffd54f;text-shadow:0 0 20px rgba(255,213,79,0.7);line-height:1}
+.gem-lbl{font-size:0.78rem;font-weight:800;color:#ff6eb4;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+
+.day-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.day-pill{background:var(--card2);border:1px solid var(--brd);border-radius:12px;padding:10px;text-align:center}
+.dp-num{font-size:1.5rem;font-weight:800;color:#ffd54f}
+.dp-lbl{font-size:0.7rem;font-weight:700;color:#ce93d8}
+
+.rwrd-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rwrd-card{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 10px;text-align:center}
+.rwrd-ico{font-size:1.5rem;margin-bottom:4px}
+.rwrd-name{font-size:0.75rem;font-weight:800;color:#fff;margin-bottom:6px;line-height:1.2}
+.day-lbl{font-size:0.65rem;font-weight:700;color:#ce93d8;margin:4px 0 3px}
+.star-row{display:flex;justify-content:center;gap:3px}
+.star-btn{width:30px;height:30px;cursor:pointer;transition:transform 0.15s;background:none;border:none;padding:0;display:flex;align-items:center;justify-content:center}
+.star-btn:active{transform:scale(1.3)}
+
+.rwrd-ideas{border:1px solid rgba(255,213,79,0.3);border-radius:14px;padding:12px;background:rgba(255,213,79,0.05)}
+.ri-title{font-size:0.8rem;font-weight:800;color:#ffd54f;margin-bottom:7px}
+.ri-chips{display:flex;flex-wrap:wrap;gap:5px}
+.ri-chip{background:rgba(255,110,180,0.15);border:1px solid rgba(255,110,180,0.3);border-radius:20px;padding:4px 10px;font-size:0.73rem;font-weight:700;color:#ff6eb4}
+
+/* DUA */
+.dua-card{background:var(--card);border:1px solid rgba(76,175,80,0.3);border-radius:var(--r);padding:16px;margin-bottom:10px;text-align:center}
+.dua-name{font-size:0.82rem;font-weight:800;color:#a5d6a7;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+.dua-arabic{font-size:1.35rem;color:#ffd54f;font-weight:700;line-height:1.9;direction:rtl;margin-bottom:8px}
+.dua-english{font-size:0.78rem;color:rgba(255,255,255,0.6);font-style:italic;line-height:1.5}
+
+/* REMINDERS */
+.rem-card{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.rem-ico{font-size:1.5rem}
+.rem-text{font-size:0.88rem;font-weight:700;color:#fff}
+
+.parent-tip{background:linear-gradient(135deg,rgba(74,20,140,0.6),rgba(136,14,79,0.6));border:1px solid rgba(255,110,180,0.4);border-radius:14px;padding:14px;margin-top:4px}
+.pt-title{font-size:0.82rem;font-weight:800;color:#ffd54f;margin-bottom:6px}
+.pt-body{font-size:0.78rem;color:rgba(255,255,255,0.75);line-height:1.6}
+.pt-love{font-size:0.82rem;font-weight:800;color:#ff6eb4;margin-top:8px}
+
+.credit{text-align:center;font-size:0.7rem;color:rgba(255,255,255,0.3);margin-top:12px;font-weight:600}
+.credit span{color:rgba(255,110,180,0.7)}
+
+/* RESET BTN */
+.reset-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);border-radius:30px;padding:8px 18px;font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;display:block;margin:12px auto 0}
+.reset-btn:active{transform:scale(0.95)}
+
+/* CONFETTI */
+#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+.cf{position:absolute;border-radius:2px;animation:cffall 2s ease-in forwards}
+@keyframes cffall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
+
+/* SECTION TITLE */
+.sec-ttl{font-family:'Baloo 2',cursive;font-size:1rem;font-weight:700;color:#ce93d8;margin-bottom:8px}
+
+/* PULSE ANIMATION */
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,110,180,0.4)}70%{box-shadow:0 0 0 10px rgba(255,110,180,0)}}
+.pulse{animation:pulse 2s infinite}
+
+/* BOUNCE */
+@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+</style>
+</head>
+<body>
+
+<div id="sparkle-bg"></div>
+<div id="confetti"></div>
+
+<div id="app">
+  <div class="header">
+    <div class="hdr-top">
+      <div class="crown">👑</div>
+      <div class="hdr-titles">
+        <div class="hdr-main">Weekend Schedule<br>for Little Muslims 🌙</div>
+        <div class="hdr-sub">Age 4–7 • Malaysia Time</div>
+      </div>
+    </div>
+    <div class="hdr-name-wrap" id="nameWrap">
+      <input class="hdr-name-input" id="nameInput" type="text" maxlength="20" placeholder="✨ Enter your name, princess!" autocomplete="off"/>
+    </div>
+    <div id="greetWrap" style="display:none;margin-top:8px;display:none">
+      <div class="hdr-greeting" id="greetText"></div>
+    </div>
+    <div class="hdr-stars-row">
+      <span style="font-size:1rem">💫</span>
+      <span style="font-size:0.8rem;color:rgba(255,255,255,0.6);font-weight:700" id="hdrStarCount">0 stars earned</span>
+      <span style="font-size:1rem">💫</span>
+    </div>
+  </div>
+
+  <nav class="nav" id="nav"></nav>
+  <div class="content" id="content"></div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────
+const ACTS = [
+  {time:'7:00 AM',title:'Wake Up & Morning Du\'a',desc:'Say morning dua and start the day with gratitude!',ico:'🌅',type:'prayer'},
+  {time:'7:30 AM',title:'Wudhu Practice',desc:'Learn and practice wudhu step by step.',ico:'💧',type:'learn'},
+  {time:'8:00 AM',title:'Fajr Prayer with Family',desc:'Pray Fajr with family and make dua together.',ico:'🕌',type:'prayer'},
+  {time:'8:30 AM',title:'Healthy Breakfast',desc:'Eat healthy food and say "Bismillah".',ico:'🥗',type:'meal'},
+  {time:'9:00 AM',title:'Do Homework',desc:'Complete your homework and try your best!',ico:'📚',type:'learn'},
+  {time:'9:30 AM',title:'Islamic Story Time',desc:'Listen to Prophet stories and learn good values.',ico:'📖',type:'learn'},
+  {time:'10:30 AM',title:'Educational Screen Time',desc:'Watch Islamic cartoons or videos with good lessons.',ico:'📱',type:'play'},
+  {time:'1:15 PM',title:'Dhuhr Prayer',desc:'Pray Dhuhr and earn reward stars!',ico:'🕌',type:'prayer'},
+  {time:'1:30 PM',title:'Lunch + Rest Time',desc:'Eat, relax and take a good rest.',ico:'🍽️',type:'meal'},
+  {time:'3:00 PM',title:'Creative Learning',desc:'Do fun activities like colouring, crafts and drawing.',ico:'🎨',type:'play'},
+  {time:'4:30 PM',title:'Asr Prayer',desc:'Pray Asr and ask Allah for goodness.',ico:'🕌',type:'prayer'},
+  {time:'5:00 PM',title:'Outdoor Play',desc:'Play outside, be active and enjoy nature!',ico:'⚽',type:'play'},
+  {time:'5:30 PM',title:'Helping Parents',desc:'Help at home and make parents happy.',ico:'🏠',type:'family'},
+  {time:'7:20 PM',title:'Maghrib Prayer',desc:'Pray Maghrib with family.',ico:'🌆',type:'prayer'},
+  {time:'7:45 PM',title:'Surah Revision',desc:'Revise surahs using fun games.',ico:'📗',type:'learn'},
+  {time:'8:15 PM',title:'Dinner',desc:'Eat dinner and say Alhamdulillah.',ico:'🍛',type:'meal'},
+  {time:'10:00 PM',title:'Study',desc:'Study and revise lessons or do reading.',ico:'🔬',type:'learn'},
+  {time:'10:00 PM',title:'Bedtime Story + Du\'a',desc:'Listen to a bedtime story and sleep with dua.',ico:'🌙',type:'sleep'},
+];
+const REWARD_TASKS = [
+  {name:'Prayed on time',ico:'🕌'},
+  {name:'Read Quran',ico:'📗'},
+  {name:'Helped Parents',ico:'🏠'},
+  {name:'Good Manners',ico:'😊'},
+  {name:'No Screentime Tantrums',ico:'📵'},
+];
+const DUAS = [
+  {name:'Morning Dua',arabic:'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا',english:'All praise is due to Allah who gave us life after death (sleep).'},
+  {name:'Before Eating – Bismillah',arabic:'بِسْمِ اللَّهِ',english:'In the name of Allah.'},
+  {name:'After Eating',arabic:'الْحَمْدُ لِلَّهِ',english:'All praise is due to Allah.'},
+  {name:'Before Sleep',arabic:'اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا',english:'O Allah, with Your name I die and I live.'},
+  {name:'Entering Bathroom',arabic:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ',english:'O Allah, I seek refuge in You from evil.'},
+  {name:'Entering Home',arabic:'اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ الْمَوْلِجِ وَخَيْرَ الْمَخْرَجِ',english:'O Allah, I ask You for the best of entries and exits.'},
+];
+const REMINDERS = [
+  {ico:'🤲',text:'Say Bismillah before everything'},
+  {ico:'❤️',text:'Be Kind and Share with others'},
+  {ico:'👂',text:'Listen to Parents always'},
+  {ico:'🕐',text:'Pray on time every day'},
+  {ico:'🙏',text:'Thank Allah for everything'},
+];
+const TABS = [
+  {id:'schedule',ico:'📅',lbl:'Schedule'},
+  {id:'rewards',ico:'⭐',lbl:'Rewards'},
+  {id:'duas',ico:'🤲',lbl:'Du\'as'},
+  {id:'tips',ico:'💡',lbl:'Reminders'},
+];
+
+// ─── STATE ─────────────────────────────────────────────
+let state = {
+  name: '',
+  done: [],
+  stars: REWARD_TASKS.map(()=>({sat:0,sun:0})),
+  tab: 'schedule',
+};
+function loadState(){
+  try{
+    const s = JSON.parse(localStorage.getItem('lm_state_v2'));
+    if(s){Object.assign(state,s)}
+  }catch(e){}
+}
+function saveState(){
+  localStorage.setItem('lm_state_v2',JSON.stringify(state));
+}
+loadState();
+
+// ─── AUDIO ─────────────────────────────────────────────
+const ctx = new (window.AudioContext||window.webkitAudioContext)();
+function resumeCtx(){if(ctx.state==='suspended')ctx.resume()}
+
+function playTone(freq,type='sine',dur=0.15,vol=0.3,delay=0){
+  resumeCtx();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.connect(gain);gain.connect(ctx.destination);
+  osc.type=type;osc.frequency.value=freq;
+  gain.gain.setValueAtTime(0,ctx.currentTime+delay);
+  gain.gain.linearRampToValueAtTime(vol,ctx.currentTime+delay+0.01);
+  gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+delay+dur);
+  osc.start(ctx.currentTime+delay);
+  osc.stop(ctx.currentTime+delay+dur+0.05);
+}
+
+function playCheck(){
+  playTone(523,  'sine', 0.1, 0.3, 0);
+  playTone(659,  'sine', 0.1, 0.3, 0.08);
+  playTone(784,  'sine', 0.15,0.3, 0.16);
+}
+function playUncheck(){
+  playTone(400,'sine',0.15,0.2,0);
+}
+function playStar(){
+  [523,659,784,1047].forEach((f,i)=>playTone(f,'sine',0.12,0.25,i*0.07));
+}
+function playFanfare(){
+  const melody=[523,659,784,1047,784,1047,1319];
+  melody.forEach((f,i)=>playTone(f,'square',0.12,0.2,i*0.1));
+}
+function playTabClick(){
+  playTone(440,'sine',0.08,0.15,0);
+}
+function playNameSave(){
+  [659,784,1047].forEach((f,i)=>playTone(f,'sine',0.1,0.2,i*0.08));
+}
+
+// ─── SPARKLES ──────────────────────────────────────────
+(function(){
+  const bg=document.getElementById('sparkle-bg');
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');
+    el.className='spark';
+    const sz=1+Math.random()*3;
+    const colors=['#ff6eb4','#ffd54f','#ce93d8','#90caf9','#fff'];
+    el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};--d:${2+Math.random()*4}s;--del:${Math.random()*4}s`;
+    bg.appendChild(el);
+  }
+})();
+
+// ─── CONFETTI ─────────────────────────────────────────
+function launchConfetti(count=40){
+  const c=document.getElementById('confetti');
+  const cols=['#ff6eb4','#ffd54f','#ce93d8','#90caf9','#4caf50','#ff9800','#fff'];
+  for(let i=0;i<count;i++){
+    const el=document.createElement('div');
+    el.className='cf';
+    const sz=6+Math.random()*10;
+    el.style.cssText=`left:${Math.random()*100}%;top:-20px;width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};border-radius:${Math.random()>0.5?'50%':'2px'};animation-delay:${Math.random()*0.8}s`;
+    c.appendChild(el);
+    setTimeout(()=>el.remove(),3000);
+  }
+}
+
+// ─── HELPERS ───────────────────────────────────────────
+function totalStars(){
+  return state.stars.reduce((s,t)=>s+t.sat+t.sun,0);
+}
+function updateHdrStars(){
+  document.getElementById('hdrStarCount').textContent=totalStars()+' stars earned';
+}
+function updateGreet(){
+  const ni=document.getElementById('nameInput');
+  const gw=document.getElementById('greetWrap');
+  const gt=document.getElementById('greetText');
+  const nw=document.getElementById('nameWrap');
+  if(state.name){
+    nw.style.display='none';
+    gw.style.display='block';
+    gt.textContent='👸 Assalamu\'alaikum, Princess '+state.name+'! 💕';
+  } else {
+    nw.style.display='flex';
+    gw.style.display='none';
+    ni.value='';
+  }
+}
+
+// ─── NAME INPUT ────────────────────────────────────────
+document.getElementById('nameInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    const v=e.target.value.trim();
+    if(v){state.name=v;saveState();playNameSave();launchConfetti(20);updateGreet();updateHdrStars()}
+  }
+});
+document.getElementById('nameInput').addEventListener('blur',e=>{
+  const v=e.target.value.trim();
+  if(v){state.name=v;saveState();playNameSave();updateGreet();updateHdrStars()}
+});
+
+// ─── TABS ──────────────────────────────────────────────
+function renderNav(){
+  document.getElementById('nav').innerHTML=TABS.map(t=>`
+    <button class="nav-btn ${state.tab===t.id?'active':''}" onclick="switchTab('${t.id}')">
+      <span class="nb-ico">${t.ico}</span><span>${t.lbl}</span>
+    </button>`).join('');
+}
+function switchTab(id){
+  playTabClick();
+  state.tab=id;
+  renderNav();
+  renderContent();
+  document.getElementById('content').scrollTop=0;
+}
+
+// ─── SCHEDULE ─────────────────────────────────────────
+function renderSchedule(){
+  const pct=ACTS.length?Math.round(state.done.length/ACTS.length*100):0;
+  const msgs=['Start with Bismillah! 🌅','Alhamdulillah, keep going! 💪','More than halfway! MashaAllah! 🌟','Almost there! Amazing! ✨','🎉 All done! SubhanAllah! You\'re a star!'];
+  const mi=pct===100?4:pct>=75?3:pct>=50?2:pct>=25?1:0;
+  return `
+    <div class="card">
+      <div class="prog-row"><span class="prog-label">Today's journey ✨</span><span class="prog-count">${state.done.length}/${ACTS.length}</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+      <div class="prog-msg">${msgs[mi]}</div>
+    </div>
+    ${ACTS.map((a,i)=>{
+      const isDone=state.done.includes(i);
+      return `<div class="act-card t-${a.type} ${isDone?'done':''}" onclick="toggleDone(${i})">
+        <div class="act-ico-wrap">${a.ico}</div>
+        <div class="act-info">
+          <div class="act-time">${a.time}</div>
+          <div class="act-title">${a.title}</div>
+          <div class="act-desc">${a.desc}</div>
+        </div>
+        <div class="chk ${isDone?'on':''}">
+          <svg width="14" height="14" viewBox="0 0 14 14"><polyline points="2,7 6,11 12,3" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+
+function toggleDone(i){
+  resumeCtx();
+  if(state.done.includes(i)){
+    state.done=state.done.filter(x=>x!==i);
+    playUncheck();
+  } else {
+    state.done.push(i);
+    playCheck();
+    if(state.done.length===ACTS.length){setTimeout(()=>{launchConfetti(60);playFanfare()},100)}
+  }
+  saveState();
+  updateHdrStars();
+  renderContent();
+}
+
+// ─── REWARDS ─────────────────────────────────────────
+function renderRewards(){
+  const satT=state.stars.reduce((s,t)=>s+t.sat,0);
+  const sunT=state.stars.reduce((s,t)=>s+t.sun,0);
+  const tot=satT+sunT;
+  return `
+    <div class="total-gem">
+      <div class="gem-num">${tot} ⭐</div>
+      <div class="gem-lbl">Stars Earned This Weekend!</div>
+    </div>
+    <div class="day-pills">
+      <div class="day-pill"><div class="dp-num">⭐ ${satT}</div><div class="dp-lbl">Saturday Stars</div></div>
+      <div class="day-pill"><div class="dp-num">⭐ ${sunT}</div><div class="dp-lbl">Sunday Stars</div></div>
+    </div>
+    <div class="sec-ttl">Tap a star to earn it! 👇</div>
+    <div class="rwrd-grid">
+      ${state.stars.map((t,i)=>{
+        const task=REWARD_TASKS[i];
+        return `<div class="rwrd-card">
+          <div class="rwrd-ico">${task.ico}</div>
+          <div class="rwrd-name">${task.name}</div>
+          <div class="day-lbl">Saturday</div>
+          <div class="star-row">${[0].map(s=>`
+            <button class="star-btn" onclick="toggleStar(${i},'sat',0)">
+              <svg viewBox="0 0 24 24" width="28" height="28"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" fill="${t.sat>0?'#ffd54f':'rgba(255,255,255,0.12)'}" stroke="${t.sat>0?'#ff8f00':'rgba(255,255,255,0.2)'}" stroke-width="1.5"/></svg>
+            </button>`).join('')}
+          </div>
+          <div class="day-lbl">Sunday</div>
+          <div class="star-row">${[0].map(s=>`
+            <button class="star-btn" onclick="toggleStar(${i},'sun',0)">
+              <svg viewBox="0 0 24 24" width="28" height="28"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" fill="${t.sun>0?'#ffd54f':'rgba(255,255,255,0.12)'}" stroke="${t.sun>0?'#ff8f00':'rgba(255,255,255,0.2)'}" stroke-width="1.5"/></svg>
+            </button>`).join('')}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="rwrd-ideas" style="margin-top:10px">
+      <div class="ri-title">🎁 Reward Ideas</div>
+      <div class="ri-chips">
+        ${['⚽ Extra play time','🍩 Favourite snack','📚 New book','⭐ Sticker','🚗 Family outing'].map(r=>`<span class="ri-chip">${r}</span>`).join('')}
+      </div>
+    </div>
+    <button class="reset-btn" onclick="resetAll()">🔄 Reset All Progress</button>
+    <div class="credit" style="margin-top:14px">App by <span>RedzuanBaharan</span> • EnviroVera 🌿</div>`;
+}
+
+function toggleStar(ti,day,s){
+  resumeCtx();
+  const cur=state.stars[ti][day];
+  state.stars[ti][day]=cur>0?0:1;
+  if(state.stars[ti][day]>0){playStar();launchConfetti(15)}else{playUncheck()}
+  saveState();
+  updateHdrStars();
+  renderContent();
+}
+
+// ─── DUAS ─────────────────────────────────────────────
+function renderDuas(){
+  return `
+    <div style="text-align:center;font-size:2rem;margin-bottom:10px">🤲🌙📿</div>
+    ${DUAS.map(d=>`
+      <div class="dua-card">
+        <div class="dua-name">${d.name}</div>
+        <div class="dua-arabic">${d.arabic}</div>
+        <div class="dua-english">"${d.english}"</div>
+      </div>`).join('')}
+    <div style="background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.3);border-radius:14px;padding:12px;text-align:center;margin-top:4px">
+      <div style="font-size:0.82rem;font-weight:700;color:#a5d6a7">May Allah make our children among the righteous. Ameen 🤲</div>
+    </div>
+    <div class="credit" style="margin-top:14px">App by <span>RedzuanBaharan</span> • EnviroVera 🌿</div>`;
+}
+
+// ─── REMINDERS ────────────────────────────────────────
+function renderReminders(){
+  return `
+    <div style="text-align:center;font-size:2rem;margin-bottom:10px">😊💚🌟</div>
+    <div class="sec-ttl">Daily Reminders</div>
+    ${REMINDERS.map(r=>`
+      <div class="rem-card">
+        <div class="rem-ico">${r.ico}</div>
+        <div class="rem-text">${r.text}</div>
+      </div>`).join('')}
+    <div class="parent-tip">
+      <div class="pt-title">💡 Parent Tip</div>
+      <div class="pt-body">Keep it short, fun and consistent. Praise more, correct gently and make Islam a joyful part of their life.</div>
+      <div class="pt-love">LOVE + CONSISTENCY = HAPPY LITTLE MUSLIM ❤️</div>
+    </div>
+    <div style="background:rgba(255,110,180,0.08);border:1px solid rgba(255,110,180,0.2);border-radius:14px;padding:12px;margin-top:10px">
+      <div style="font-size:0.8rem;font-weight:800;color:#ff6eb4;margin-bottom:6px">📲 Install this App</div>
+      <div style="font-size:0.75rem;color:rgba(255,255,255,0.65);line-height:1.6"><strong style="color:#fff">iPhone:</strong> Tap Share → "Add to Home Screen"<br><strong style="color:#fff">Android:</strong> Tap menu → "Add to Home Screen" or "Install App"</div>
+    </div>
+    <div class="credit" style="margin-top:14px">App by <span>RedzuanBaharan</span> • EnviroVera 🌿</div>`;
+}
+
+// ─── MAIN RENDER ──────────────────────────────────────
+function renderContent(){
+  const c=document.getElementById('content');
+  if(state.tab==='schedule') c.innerHTML=renderSchedule();
+  else if(state.tab==='rewards') c.innerHTML=renderRewards();
+  else if(state.tab==='duas') c.innerHTML=renderDuas();
+  else c.innerHTML=renderReminders();
+}
+
+function resetAll(){
+  if(confirm('Reset all progress? Stars and checkmarks will be cleared.')){
+    state.done=[];
+    state.stars=REWARD_TASKS.map(()=>({sat:0,sun:0}));
+    saveState();
+    renderContent();
+    updateHdrStars();
+  }
+}
+
+// ─── INIT ─────────────────────────────────────────────
+updateGreet();
+updateHdrStars();
+renderNav();
+renderContent();
+
+// Register SW
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
